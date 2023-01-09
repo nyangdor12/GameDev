@@ -11,16 +11,12 @@ public class PlayerController : MonoBehaviour
     Vector2 movementInput;
     Rigidbody2D rb;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
-    public GameObject nearistDoor;
+    public GameObject nearistObject;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Update() {
-
     }
     private void FixedUpdate() 
     {
@@ -36,6 +32,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private GameObject getNearist(){
+        
+        return null;
     }
 
     private bool TryMove(Vector2 direction)
@@ -60,15 +61,13 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnInteract(){
-        nearistDoor = GameObject.FindWithTag("Door");
-        switch(nearistDoor.tag){
+        nearistObject = GameObject.FindWithTag("Door");
+        switch(nearistObject.tag){
             case "Door":
-                //Will work once a door script is implemented!
-                if(gameObject.activeSelf == true){
-                    nearistDoor.SetActive(false);
-                } else if(gameObject.activeSelf == false){
-                    nearistDoor.SetActive(true);
-                }
+                GameEvents.current.DoorTrigger();
+                break;
+            case "NPC":
+                GameEvents.current.DialogTrigger();
                 break;
         }
     }
